@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/template/template.xhtml" xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title"> Challenges </ui:define>
+	<ui:define name="content">
+		<h:form>
+			<h:dataTable value="#{challengeBean.challenges}" var="challenge"
+				border="1">
+
+			
+	<h:outputText value="id" />
+				<h:inputText value="#{challengeBean.challengeIDTobeUpdated}" />
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="titre" />
+					</f:facet>
+					<h:outputText value="#{challenge.titre}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="description" />
+					</f:facet>
+					<h:outputText value="#{challenge.description}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="date debut" />
+					</f:facet>
+					<h:outputText value="#{challenge.datedebut}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="date fin" />
+					</f:facet>
+					<h:outputText value="#{challenge.datefin}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="places" />
+					</f:facet>
+					<h:outputText value="#{challenge.nbreplaces}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Action" />
+					</f:facet>
+					<h:commandButton
+						action="#{challengeBean.participateInChallenge(challenge.idChallenge)}"
+						value="participate" />
+				</h:column>
+			</h:dataTable>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+

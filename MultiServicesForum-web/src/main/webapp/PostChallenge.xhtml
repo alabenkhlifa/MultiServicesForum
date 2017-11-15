@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/template/template.xhtml" xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title"> Challenges' Posts </ui:define>
+	<ui:define name="content">
+
+		<h:form id="form" enctype="multipart/form-data">
+			<h:panelGrid columns="2">
+
+
+				<h:outputText value="description" />
+				<h:inputText value="#{post_ChallengeBean.description}" />
+				<h:outputText value="image" />
+				<p:fileUpload value="#{post_ChallengeBean.uploadedFile}"
+					mode="simple" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+
+				<h:commandButton action="#{post_ChallengeBean.addPost()}"
+					value="Add challenge" ajax="False" />
+
+			</h:panelGrid>
+		</h:form>
+
+		<h:form>
+			<h:dataTable value="#{post_ChallengeBean.posts}" var="post"
+				border="1">
+						
+
+						<h:column>
+					<f:facet name="header">
+						<h:outputText value="description" />
+					</f:facet>
+					<h:outputText value="#{post.description}" />
+				</h:column>
+
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="date post" />
+					</f:facet>
+					<h:outputText value="#{post.datePub}" />
+				</h:column>
+
+
+			
+
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

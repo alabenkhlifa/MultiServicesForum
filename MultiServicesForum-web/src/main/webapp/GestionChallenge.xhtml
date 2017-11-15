@@ -1,0 +1,166 @@
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="LayoutFront.xhtml">
+		<ui:define name="title"> Gestion des challenges </ui:define>
+		<ui:define name="main-content">
+
+			<h:form id="form" enctype="multipart/form-data">
+				<h:panelGrid columns="2" border="0" >
+					<h:outputText value="id" />
+					<h:inputText value="#{challengeBean.challengeIDTobeUpdated}" />
+					<h:outputText value="Type Challenge" />
+					<h:selectOneMenu value="#{challengeBean.typeChallenge}">
+						<f:selectItem itemLabel="Category" itemValue="" />
+						<f:selectItems value="#{dataTypeChallenge.typeChallenges}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="Category" />
+					<h:selectOneMenu value="#{challengeBean.category}">
+						<f:selectItem itemLabel="Category" itemValue="" />
+						<f:selectItems value="#{dataCategory.geCategories()}" />
+					</h:selectOneMenu>
+					<h:outputText value="titre" />
+					<h:inputText value="#{challengeBean.titre}" />
+					<h:outputText value="description" />
+					<h:inputText value="#{challengeBean.description}" />
+					<h:outputText value="date debut" />
+					<h:inputText id="datedebut" value="#{challengeBean.datedebut}">
+						<f:convertDateTime pattern="dd-MM-yyyy" />
+					</h:inputText>
+					<h:outputText value="date fin" />
+					<h:inputText id="datefin" value="#{challengeBean.datefin}">
+						<f:convertDateTime pattern="dd-MM-yyyy" />
+					</h:inputText>
+					<h:outputText value="places" />
+					<h:inputText value="#{challengeBean.nbreplaces}" />
+					<h:outputText value="image" />
+					<p:fileUpload value="#{challengeBean.uploadedFile}" mode="simple"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+					<h:commandButton action="#{challengeBean.addChallenge()}"
+						value="Add challenge" ajax="False" />
+					<h:commandButton action="#{challengeBean.updateChallenge()}"
+						value="mettre a jour challenge" />
+				</h:panelGrid>
+			</h:form>
+
+			<h:form>
+				<h:dataTable value="#{challengeBean.challenges}" var="challenge"
+					border="1">
+					<!-- 				<p:column headerText="Image" style="width:30%"> -->
+					<!-- 					<p:graphicImage value="#{productBean.productImage}"> -->
+					<!-- 						<f:param name="pid" value="#{row.productId}" /> -->
+					<!-- 					</p:graphicImage> -->
+					<!-- 				</p:column> -->
+
+					<!-- 				<h:column>  -->
+					<!-- 					<f:facet name="header"> -->
+					<!-- 						<h:outputText value="Type challenge" /> -->
+					<!-- 					</f:facet>  -->
+					<!-- 					<h:outputText value=#{challenge.typeChallenge} /> -->
+					<!-- 				</h:column> -->
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="category" />
+						</f:facet>
+						<h:outputText value="#{challenge.category}" />
+					</h:column>
+
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="titre" />
+						</f:facet>
+						<h:outputText value="#{challenge.titre}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="description" />
+						</f:facet>
+						<h:outputText value="#{challenge.description}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="date debut" />
+						</f:facet>
+						<h:outputText value="#{challenge.datedebut}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="date fin" />
+						</f:facet>
+						<h:outputText value="#{challenge.datefin}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="places" />
+						</f:facet>
+						<h:outputText value="#{challenge.nbreplaces}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="image" />
+						</f:facet>
+						<p:graphicImage id="place_image"
+							value="#{challengeImageBean.image}" cache="false"
+							styleClass="editor-picture" height="170" width="290">
+							<f:param name="id" value="#{challenge.idChallenge}" />
+						</p:graphicImage>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Action" />
+						</f:facet>
+						<h:commandButton
+							action="#{challengeBean.supprimer(challenge.idChallenge)}"
+							value="remove" />
+						<h:commandButton action="#{challengeBean.modifier(challenge)}"
+							value="modifier" />
+					</h:column>
+				</h:dataTable>
+
+			</h:form>
+
+			<h:form>
+				<p:growl id="messages" showDetail="true" />
+
+				<h:panelGrid columns="2" cellpadding="5">
+
+
+					<h:outputText value="Basic:" />
+					<p:rating value="#{challengeBean.rating1}" />
+
+
+				</h:panelGrid>
+
+				<p:commandButton value="Submit" update="display"
+					oncomplete="PF('dlg').show()" style="margin:5px"
+					action="#{challengeBean.rate()}" />
+
+				<p:dialog header="Values" widgetVar="dlg" showEffect="fade"
+					hideEffect="fade">
+					<h:panelGrid id="display" columns="2" cellpadding="5">
+						<h:outputText value="Rating 1:" />
+						<h:outputText value="#{challengeBean.rating1}" />
+
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</h:html>
