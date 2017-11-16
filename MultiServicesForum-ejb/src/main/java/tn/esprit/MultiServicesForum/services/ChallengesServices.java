@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import tn.esprit.MultiServicesForum.entities.Category;
-import tn.esprit.MultiServicesForum.entities.Challenges;
+import tn.esprit.MultiServicesForum.entities.Challenge;
 import tn.esprit.MultiServicesForum.entities.Participation;
 import tn.esprit.MultiServicesForum.entities.ParticipationPk;
 import tn.esprit.MultiServicesForum.entities.Rating;
@@ -25,26 +25,30 @@ public class ChallengesServices implements ChallengesServicesLocal,ChallengesSer
 
 	@PersistenceContext
 	private EntityManager em;
-	Challenges challenge = new Challenges();
+	Challenge challenge = new Challenge();
 
+	public ChallengesServices (){
+		
+	}
+	
 	@Override
-	public void ajouterChallenge(Challenges challenge) {
+	public void ajouterChallenge(Challenge challenge) {
 		em.persist(challenge);
 	}
 
 	@Override
-	public List<Challenges> getAllChallenges() {
-		return em.createQuery("select c from Challenges c order by typeChallenge",
-				Challenges.class).getResultList();
+	public List<Challenge> getAllChallenges() {
+		return em.createQuery("select c from Challenge c order by typeChallenge",
+				Challenge.class).getResultList();
 	}
 
 	@Override
 	public void removeChallenge(int challengeId) {
-		em.remove(em.find(Challenges.class, challengeId));
+		em.remove(em.find(Challenge.class, challengeId));
 	}
 
 	@Override
-	public void updateChallenge(Challenges challenge) {
+	public void updateChallenge(Challenge challenge) {
 		em.merge(challenge);
 	}
 
@@ -63,9 +67,9 @@ public class ChallengesServices implements ChallengesServicesLocal,ChallengesSer
 	// }
 
 	@Override
-	public List<Challenges> getChallengesByCategory(Category category) {
-		return em.createQuery("select e from Challenges e where e.category=:cat",
-				Challenges.class).setParameter("cat", category).getResultList();
+	public List<Challenge> getChallengesByCategory(Category category) {
+		return em.createQuery("select e from Challenge e where e.category=:cat",
+				Challenge.class).setParameter("cat", category).getResultList();
 	}
 
 	@Override
@@ -73,7 +77,7 @@ public class ChallengesServices implements ChallengesServicesLocal,ChallengesSer
 		ParticipationPk tpk = new ParticipationPk();
 		tpk.setIdChallenge(idChallenge);
 		tpk.setIdMember(1);
-		Challenges chal = em.find(Challenges.class, idChallenge);
+		Challenge chal = em.find(Challenge.class, idChallenge);
 		System.out.println("**************************************" + chal.getNbreplaces());
 		if (chal.getNbreplaces() > 0 && chal.getDatefin().before(new Date())) {
 			Participation part = new Participation();
@@ -100,7 +104,7 @@ public class ChallengesServices implements ChallengesServicesLocal,ChallengesSer
 	@Override
 	public byte[] findPictureByChallengeId(int id) {
 		byte[] picture = null;
-		Query query = em.createQuery("select p.picture from Challenges p where p.id=:x");
+		Query query = em.createQuery("select p.picture from Challenge p where p.id=:x");
 		query.setParameter("x", id);
 		try {
 			picture = (byte[]) query.getSingleResult();

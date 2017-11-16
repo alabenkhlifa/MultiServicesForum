@@ -31,10 +31,10 @@ import javax.persistence.OneToOne;
 		private Date datePub;
 		@ManyToOne
 		@JoinColumn(name="idChallenge")
-		private Challenges challenge;
+		private Challenge challenge;
 		
 		@OneToOne(mappedBy="postWinner")
-		private Challenges challengeWinned;
+		private Challenge challengeWinned;
 		
 	
 	
@@ -76,16 +76,16 @@ import javax.persistence.OneToOne;
 		public void setDatePub(Date datePub) {
 			this.datePub = datePub;
 		}
-		public Challenges getChallenge() {
+		public Challenge getChallenge() {
 			return challenge;
 		}
-		public void setChallenge(Challenges challenge) {
+		public void setChallenge(Challenge challenge) {
 			this.challenge = challenge;
 		}
-		public Challenges getChallengeWinned() {
+		public Challenge getChallengeWinned() {
 			return challengeWinned;
 		}
-		public void setChallengeWinned(Challenges challengeWinned) {
+		public void setChallengeWinned(Challenge challengeWinned) {
 			this.challengeWinned = challengeWinned;
 		}
 		public byte[] getPicture() {

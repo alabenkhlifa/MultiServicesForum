@@ -1,5 +1,6 @@
 package tn.esprit.MultiServicesForum.presentation.mbeans;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,55 +10,56 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.model.UploadedFile;
 
+import tn.esprit.MultiServicesForum.entities.Categories;
 import tn.esprit.MultiServicesForum.entities.Category;
-import tn.esprit.MultiServicesForum.entities.Challenges;
+import tn.esprit.MultiServicesForum.entities.Challenge;
 import tn.esprit.MultiServicesForum.entities.Rating;
 import tn.esprit.MultiServicesForum.entities.TypeChallenge;
+import tn.esprit.MultiServicesForum.services.CategoriesServiceLocal;
 import tn.esprit.MultiServicesForum.services.ChallengesServices;
+import tn.esprit.MultiServicesForum.services.ChallengesServicesLocal;
 
 
 
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ChallengeBean {
 
-	private Integer idChallenge;
-	
-	private String titre;
-	private String description;
-	private Date datedebut;
-	private Date datefin;
-	private Category category;
-	private List<Challenges> challenges;
-	private Integer challengeIDTobeUpdated;
-	private Integer nbreplaces;
-	private byte[] picture;
+	private List<Challenge> challenges;
 	private UploadedFile uploadedFile;
-	private TypeChallenge typeChallenge;
-	  
-    private Integer rating1;
-
-
+	private List<Categories> categories;
+	private Challenge challenge = new Challenge();
+	private Integer rating1;
 		
 		@EJB
-		ChallengesServices chs;
+		ChallengesServicesLocal chs;
 	
+		@EJB
+		CategoriesServiceLocal cSL;
 		
-		public void addChallenge()throws ParseException{
-			SimpleDateFormat simpleFormat = new SimpleDateFormat("dd-MM-yyyy");
-			
-			String fileName = uploadedFile.getFileName();
-		    String contentType = uploadedFile.getContentType();
-		    System.out.println("fileName : "+fileName+" contentType : "+ contentType);
-		    byte[] contents = uploadedFile.getContents(); 
-			this.setPicture(contents);
-			if ( getDatefin().after(getDatedebut()) && (getDatedebut().after(new Date()))){
-			chs.ajouterChallenge(new Challenges(typeChallenge,picture,category,titre,description,nbreplaces,datedebut, datefin));
-			}}
+		public Challenge getChallenge() {
+			return challenge;
+		}
+
+		public void setChallenge(Challenge challenge) {
+			this.challenge = challenge;
+		}
+		
+		public void addChallenge(){
+//		    byte[] contents = uploadedFile.getContents();
+//		    challenge.setPicture(contents);
+////			if ( getDatefin().after(getDatedebut()) && (getDatedebut().after(new Date()))){
+//			chs.ajouterChallenge(challenge);
+//			}
+		}
 		 
 			
 		
@@ -99,124 +101,124 @@ public class ChallengeBean {
 		@PostConstruct
 		public void init(){
 			challenges=chs.getAllChallenges();
+			categories=cSL.getAllCategories();
 		}
 		
-		public List<Challenges> getChallenges(){
+		public List<Challenge> getChallenges(){
 			return challenges;
 		}
 	
 		public void supprimer(Integer challengeId){
 			chs.removeChallenge(challengeId);
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			try {
+				ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
-		public void modifier(Challenges challenge){
-			this.setTitre(challenge.getTitre());
-			this.setDescription(challenge.getDescription());
-			this.setDatedebut(challenge.getDatedebut());
-			this.setDatefin(challenge.getDatefin());
-			this.setChallengeIDTobeUpdated(challenge.getIdChallenge());
+		public void modifier(Challenge challenge){
+//			this.setTitre(challenge.getTitre());
+//			this.setDescription(challenge.getDescription());
+//			this.setDatedebut(challenge.getDatedebut());
+//			this.setDatefin(challenge.getDatefin());
+//			this.setChallengeIDTobeUpdated(challenge.getIdChallenge());
 		}
 		
 		public void updateChallenge(){
-			chs.updateChallenge(new Challenges(category,titre,description,datedebut,datefin,challengeIDTobeUpdated,nbreplaces));
+			chs.updateChallenge(challenge);
 		}	
 		
 		public void participateInChallenge(Integer challengeId){
 			chs.participate(challengeId, 1);
 		}
-		public void rate(){
-			chs.Rating(new Rating(rating1));
-		}
+//		public void rate(){
+//			chs.Rating(new Rating(rating1));
+//		}
 		
 		   
 
-		public int getIdChallenge() {
-			return idChallenge;
-		}
+//		public int getIdChallenge() {
+//			return idChallenge;
+//		}
+//
+//		public void setIdChallenge(int idChallenge) {
+//			this.idChallenge = idChallenge;
+//		}
+//
+//		public String getTitre() {
+//			return titre;
+//		}
+//
+//		public void setTitre(String titre) {
+//			this.titre = titre;
+//		}
+//
+//		public String getDescription() {
+//			return description;
+//		}
+//
+//		public void setDescription(String description) {
+//			this.description = description;
+//		}
+//
+//		public Date getDatedebut() {
+//			return datedebut;
+//		}
+//
+//		public void setDatedebut(Date datedebut) {
+//			this.datedebut = datedebut;
+//		}
+//
+//		public Date getDatefin() {
+//			return datefin;
+//		}
+//
+//		public void setDatefin(Date datefin) {
+//			this.datefin = datefin;
+//		}
+//
+//		public Integer getChallengeIDTobeUpdated() {
+//			return challengeIDTobeUpdated;
+//		}
+//
+//		public void setChallengeIDTobeUpdated(Integer challengeIDTobeUpdated) {
+//			this.challengeIDTobeUpdated = challengeIDTobeUpdated;
+//		}
 
-		public void setIdChallenge(int idChallenge) {
-			this.idChallenge = idChallenge;
-		}
+//		public void setIdChallenge(Integer idChallenge) {
+//			this.idChallenge = idChallenge;
+//		}
 
-		public String getTitre() {
-			return titre;
-		}
-
-		public void setTitre(String titre) {
-			this.titre = titre;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		public Date getDatedebut() {
-			return datedebut;
-		}
-
-		public void setDatedebut(Date datedebut) {
-			this.datedebut = datedebut;
-		}
-
-		public Date getDatefin() {
-			return datefin;
-		}
-
-		public void setDatefin(Date datefin) {
-			this.datefin = datefin;
-		}
-
-		public Integer getChallengeIDTobeUpdated() {
-			return challengeIDTobeUpdated;
-		}
-
-		public void setChallengeIDTobeUpdated(Integer challengeIDTobeUpdated) {
-			this.challengeIDTobeUpdated = challengeIDTobeUpdated;
-		}
-
-		public ChallengesServices getChs() {
-			return chs;
-		}
-
-		public void setChs(ChallengesServices chs) {
-			this.chs = chs;
-		}
-
-		public void setIdChallenge(Integer idChallenge) {
-			this.idChallenge = idChallenge;
-		}
-
-		public void setChallenges(List<Challenges> challenges) {
+		public void setChallenges(List<Challenge> challenges) {
 			this.challenges = challenges;
 		}
 
-		public Category getCategory() {
-			return category;
-		}
-
-		public void setCategory(Category category) {
-			this.category = category;
-		}
-
-		public Integer getNbreplaces() {
-			return nbreplaces;
-		}
-
-		public void setNbreplaces(Integer nbreplaces) {
-			this.nbreplaces = nbreplaces;
-		}
-
-		public byte[] getPicture() {
-			return picture;
-		}
-
-		public void setPicture(byte[] picture) {
-			this.picture = picture;
-		}
+//		public Category getCategory() {
+//			return category;
+//		}
+//
+//		public void setCategory(Category category) {
+//			this.category = category;
+//		}
+//
+//		public Integer getNbreplaces() {
+//			return nbreplaces;
+//		}
+//
+//		public void setNbreplaces(Integer nbreplaces) {
+//			this.nbreplaces = nbreplaces;
+//		}
+//
+//		public byte[] getPicture() {
+//			return picture;
+//		}
+//
+//		public void setPicture(byte[] picture) {
+//			this.picture = picture;
+//		}
 
 		public UploadedFile getUploadedFile() {
 			return uploadedFile;
@@ -226,24 +228,28 @@ public class ChallengeBean {
 			this.uploadedFile = uploadedFile;
 		}
 
-		public TypeChallenge getTypeChallenge() {
-			return typeChallenge;
-		}
-
-		public void setTypeChallenge(TypeChallenge typeChallenge) {
-			this.typeChallenge = typeChallenge;
-		}
-
-
+//		public TypeChallenge getTypeChallenge() {
+//			return typeChallenge;
+//		}
+//
+//		public void setTypeChallenge(TypeChallenge typeChallenge) {
+//			this.typeChallenge = typeChallenge;
+//		}
 
 		public Integer getRating1() {
 			return rating1;
 		}
 
-
-
 		public void setRating1(Integer rating1) {
 			this.rating1 = rating1;
+		}
+
+		public List<Categories> getCategories() {
+			return categories;
+		}
+
+		public void setCategories(List<Categories> categories) {
+			this.categories = categories;
 		}
 
 

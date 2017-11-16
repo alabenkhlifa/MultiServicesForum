@@ -24,7 +24,7 @@ public class Participation implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="idChallenge", referencedColumnName="idChallenge",insertable=false,updatable=false)
-	private Challenges challenge;
+	private Challenge challenge;
 	 
 
 	public Participation() {
@@ -42,10 +42,10 @@ public class Participation implements Serializable{
 	public void setMember(Member member) {
 		this.member = member;
 	}
-	public Challenges getChallenge() {
+	public Challenge getChallenge() {
 		return challenge;
 	}
-	public void setChallenge(Challenges challenge) {
+	public void setChallenge(Challenge challenge) {
 		this.challenge = challenge;
 	}
 	public TypePart getTypePart() {

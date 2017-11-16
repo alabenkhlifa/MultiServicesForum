@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="layout.xhtml">
+		<ui:define name="title">Create Challenge</ui:define>
+		<ui:define name="main">
+		<!-- 
+			<div class="header-info">
+				<h1 class="header-title">
+					<strong>Create</strong> Challenge
+				</h1>
+			</div>
+			<div class="col-md-offset-4">
+				<h:form>
+				<p:growl id="growl" life="2000" />
+					<div class="form-group has-form-text">
+						<small class="form-text">Choose challenge's type</small>
+						<h:selectOneMenu value="#{challengeBean.challenge.typeChallenge}"
+							class="form-control w-300px">
+							<f:selectItems value="#{dataTypeChallenge.typeChallenges}" />
+						</h:selectOneMenu>
+					</div>
+					<div class="form-group">
+						<label for="input-normal">Category</label>
+						<h:selectOneMenu value="#{challengeBean.challenge.category}"
+							class="form-control w-300px">
+							<f:selectItems value="#{challengeBean.categories}" var="category"
+								itemLabel="#{category.name}" itemValue="#{category}" />
+						</h:selectOneMenu>
+					</div>
+					<div class="form-group">
+						<label for="input-normal">Title</label>
+						<h:inputText value="#{challengeBean.challenge.titre}"
+							class="form-control w-300px"/>
+					</div>
+					<div class="form-group">
+						<label for="input-normal">Description</label>
+						<h:inputText value="#{challengeBean.challenge.description}"
+							class="form-control w-300px"/>
+					</div>
+					<div class="form-group">
+						<label for="input-normal">Starts On</label>
+						<div class="form-group">
+							<h:inputText class="form-control w-300px" pt:type="date" value="#{challengeBean.challenge.datedebut}" validator="dateValidator" >
+								<f:convertDateTime pattern="yyyy-MM-dd" />
+							</h:inputText>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="input-normal">Ends on</label>
+						<div class="form-group">
+							<h:inputText class="form-control w-300px" pt:type="date" value="#{challengeBean.challenge.datefin}" validator="dateValidator" >
+								<f:convertDateTime pattern="yyyy-MM-dd" />
+							</h:inputText>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="input-normal">Places</label>
+						<h:inputText converter="javax.faces.Integer" value="#{challengeBean.challenge.nbreplaces}"
+							class="form-control w-300px"/>
+					</div>
+					<div class="form-group">
+					<label for="input-normal">Picture</label>
+					 		<p:fileUpload value="#{challengeBean.uploadedFile}" mode="simple"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+					</div>
+					<br />
+					<h:commandButton update="growl" actionListener="#{challengeBean.addChallenge()}"
+						class="btn btn-w-md btn-round btn-success" value="Submit" />
+				</h:form>
+			</div> -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</h:html>
